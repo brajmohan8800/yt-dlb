@@ -1,22 +1,20 @@
-# Use an official PHP image with Apache
+# Use PHP 8.1 Apache base image
 FROM php:8.1-apache
 
-# Install required dependencies: yt-dlp and python3
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip curl ffmpeg && \
-    pip3 install yt-dlp
+# Install yt-dlp dependencies and curl
+RUN apt-get update && apt-get install -y \
+    curl \
+    ffmpeg \
+    python3-pip && \
+    pip install -U yt-dlp
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Copy project files into the container
+# Copy your project files into Apache web root
 COPY . /var/www/html/
 
-# Set permissions
+# Enable Apache mod_rewrite if needed
+RUN a2enmod rewrite
+
+# Set proper permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Expose port 80
 EXPOSE 80
-
-# Start Apache
-CMD ["apache2-foreground"]
