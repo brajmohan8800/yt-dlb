@@ -1,0 +1,7 @@
+yt-dlp.log
+*.zip
+*.tar
+*.rar
+node_modules
+.git
+.env
